@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mx-auto mt-10 mb-10 px-6">
+
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Product List</h1>
+
+    <form method="get" class="mb-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-xl font-semibold mb-6 text-gray-800 text-center">Filter by Category</h2>
+            <div class="flex flex-wrap gap-6 justify-center">
+                <div class="flex items-center mb-3">
+                    <input type="radio" name="category" id="all" value="all" class="w-5 h-5 border border-gray-400 rounded-full checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring focus:ring-blue-300"
+                        {% if not selected_category or selected_category == 'all' %}checked{% endif %}>
+                    <label for="all" class="ml-3 text-gray-700 font-medium cursor-pointer">All Categories</label>
+                </div>
+    
+                {% for category in categories %}
+                <div class="flex items-center mb-3">
+                    <input 
+                        type="radio" 
+                        name="category" 
+                        id="category-{{ category.id }}" 
+                        value="{{ category.id }}" 
+                        class="w-5 h-5 border border-gray-400 rounded-full checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring focus:ring-blue-300"
+                        {% if selected_category == category.id|stringformat:"s" %}checked{% endif %}>
+                    <label for="category-{{ category.id }}" class="ml-3 text-gray-700 font-medium cursor-pointer">{{ category.name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+    
+            <div class="mt-6 text-center">
+                <button 
+                    type="submit" 
+                    class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition ease-in-out duration-200 focus:ring focus:ring-blue-300">
+                    Apply Filter
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-4 text-center">
+        <a href="{% url 'product_create' %}" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition duration-200">
+            Add Product
+        </a>
+    </div>
+
+    <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="min-w-full table-auto border-collapse border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border border-gray-300 px-6 py-3 text-left text-sm font-medium text-gray-600">Name</th>
+                    <th class="border border-gray-300 px-6 py-3 text-left text-sm font-medium text-gray-600">Price</th>
+                    <th class="border border-gray-300 px-6 py-3 text-left text-sm font-medium text-gray-600">Stock</th>
+                    <th class="border border-gray-300 px-6 py-3 text-left text-sm font-medium text-gray-600">Category</th>
+                    <th class="border border-gray-300 px-6 py-3 text-left text-sm font-medium text-gray-600">Image</th>
+                    <th class="border border-gray-300 px-6 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr class="hover:bg-gray-100">
+                    <td class="border border-gray-300 px-6 py-4 text-sm text-gray-800">{{ product.name }}</td>
+                    <td class="border border-gray-300 px-6 py-4 text-sm text-gray-800">{{ product.price }}</td>
+                    <td class="border border-gray-300 px-6 py-4 text-sm text-gray-800">{{ product.stock }}</td>
+                    <td class="border border-gray-300 px-6 py-4 text-sm text-gray-800">{{ product.category.name }}</td>
+                    <td class="border border-gray-300 px-6 py-4 text-sm text-gray-800">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="50" height="50" class="rounded-md">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td class="border border-gray-300 px-6 py-4 text-sm text-gray-800">
+                        <a href="{% url 'product_edit' product.pk %}" class="text-blue-500 hover:underline">Edit</a> |
+                        <a href="{% url 'product_delete' product.pk %}" class="text-red-500 hover:underline">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

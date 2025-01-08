@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto mt-10 bg-gray-100 shadow-lg rounded-lg p-8">
+    <h1 class="text-4xl font-extrabold text-gray-800 mb-8">Order History for {{ customer.username }}</h1>
+    <div class="space-y-6">
+        {% for order in orders %}
+        <div class="border rounded-lg p-6 bg-white shadow hover:shadow-lg transition-shadow">
+            <h2 class="text-xl font-semibold text-gray-700">Order ID: <span class="text-blue-500">#{{ order.id }}</span></h2>
+            <p class="text-gray-600 mt-2">
+                <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}
+            </p>
+            <p class="text-gray-600">
+                <strong>Total Amount:</strong> ${{ order.payment.amount }}
+            </p>
+            <a href="{% url 'order_detail' order.id %}" 
+               class="inline-block mt-4 text-blue-600 font-medium hover:text-blue-800 transition-colors">
+                View Order Details →
+            </a>
+        </div>
+        {% empty %}
+        <div class="text-center py-6">
+            <p class="text-gray-500 text-lg">No orders found for this customer.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

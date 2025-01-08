@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mx-auto mt-10">
+    <h1 class="text-3xl font-bold mb-6">Delete Product</h1>
+    
+    <p>Are you sure you want to delete the product "{{ product.name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white p-2 rounded">Delete</button>
+        <a href="{% url 'admin_product_list' %}" class="bg-gray-500 text-white p-2 rounded ml-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}

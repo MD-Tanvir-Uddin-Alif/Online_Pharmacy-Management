@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto mt-10 mb-10 bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-3xl font-bold mb-6">All Customers</h1>
+    <table class="min-w-full table-auto border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="border px-4 py-2">#</th>
+                <th class="border px-4 py-2">Name</th>
+                <th class="border px-4 py-2">Email</th>
+                <th class="border px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr class="hover:bg-gray-100">
+                <td class="border px-4 py-2">{{ forloop.counter }}</td>
+                <td class="border px-4 py-2">{{ customer.first_name }} {{ customer.last_name }}</td>
+                <td class="border px-4 py-2">{{ customer.email }}</td>
+                <td class="border px-4 py-2">
+                    <a href="{% url 'customer_orders' customer.id %}" 
+                       class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">View Orders</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center py-4">No customers found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

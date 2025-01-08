@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="max-w-md mx-auto mt-10 mb-10 bg-white shadow-lg rounded-lg p-8">
+    <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Create Your Account</h2>
+    <img src="../static/images/thought-catalog-Q4eWnth5S74-unsplash.jpg" alt="">
+
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        <div>
+            <label for="first_name" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.first_name | as_crispy_field }}
+        </div>
+
+        <div>
+            <label for="last_name" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.last_name | as_crispy_field }}
+        </div>
+
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.username | as_crispy_field }}
+        </div>
+
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.email | as_crispy_field}}
+        </div>
+
+        <div>
+            <label for="phone_number" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.phone_number | as_crispy_field }}
+        </div>
+
+        <div>
+            <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+            {{ form.gender }}
+        </div>
+
+        <div>
+            <label for="image" class="block text-sm font-medium text-gray-700">Profile Image</label>
+            {{ form.image }}
+        </div>
+
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.password | as_crispy_field }}
+        </div>
+
+        <div>
+            <label for="confirm_password" class="block text-sm font-medium text-gray-700"></label>
+            {{ form.confirm_password |as_crispy_field }}
+        </div>
+
+        <div>
+            <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                Register
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

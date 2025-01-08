@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto p-6 mt-10 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg shadow-md">
+    <div class="mb-6 text-center">
+        <h1 class="text-3xl font-bold text-gray-800">Order Details</h1>
+        <p class="text-lg text-gray-600 mt-2">Here is a summary of your order.</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="space-y-4">
+            <p class="text-lg">
+                <span class="font-semibold text-gray-700">Order ID:</span> 
+                <span class="text-gray-800">{{ order.id }}</span>
+            </p>
+            <p class="text-lg">
+                <span class="font-semibold text-gray-700">Created At:</span> 
+                <span class="text-gray-800">{{ order.created_at|date:"M d, Y - H:i" }}</span>
+            </p>
+            <p class="text-lg">
+                <span class="font-semibold text-gray-700">Payment Method:</span> 
+                <span class="text-gray-800">{{ order.payment.method }}</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Items</h2>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <ul class="divide-y divide-gray-200">
+                {% for item in order.items.all %}
+                    <li class="py-4 flex justify-between items-center">
+                        <div class="text-gray-800">
+                            <p class="font-medium text-lg">{{ item.product.name }}</p>
+                            <p class="text-sm text-gray-500">Quantity: {{ item.quantity }}</p>
+                        </div>
+                        <p class="text-lg font-semibold text-gray-700">${{ item.price }}</p>
+                    </li>
+                {% empty %}
+                    <li class="py-4 text-center text-gray-500">
+                        No items in this order.
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10 px-6">
+    <h1 class="text-3xl font-semibold text-gray-900 mb-8 text-center">Edit Product</h1>
+
+    <form method="post" enctype="multipart/form-data" class="bg-white shadow-xl rounded-lg p-8 space-y-6">
+        {% csrf_token %}
+        
+        <!-- Product Name -->
+        <div class="flex flex-col">
+            <label for="{{ form.name.id_for_label }}" class="text-lg font-medium text-gray-700 mb-2">Product Name</label>
+            <input type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" value="{{ form.name.value }}" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Price -->
+        <div class="flex flex-col">
+            <label for="{{ form.price.id_for_label }}" class="text-lg font-medium text-gray-700 mb-2">Price</label>
+            <input type="number" name="{{ form.price.name }}" id="{{ form.price.id_for_label }}" value="{{ form.price.value }}" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Stock -->
+        <div class="flex flex-col">
+            <label for="{{ form.stock.id_for_label }}" class="text-lg font-medium text-gray-700 mb-2">Stock</label>
+            <input type="number" name="{{ form.stock.name }}" id="{{ form.stock.id_for_label }}" value="{{ form.stock.value }}" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Description -->
+        <div class="flex flex-col">
+            <label for="{{ form.description.id_for_label }}" class="text-lg font-medium text-gray-700 mb-2">Description</label>
+            <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" rows="4" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ form.description.value }}</textarea>
+        </div>
+
+        <!-- Category -->
+        <div class="flex flex-col">
+            <label for="{{ form.category.id_for_label }}" class="text-lg font-medium text-gray-700 mb-2">Category</label>
+            <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                {% for choice in form.category.field.choices %}
+                    <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Product Image -->
+        <div class="flex flex-col">
+            <label for="{{ form.image.id_for_label }}" class="text-lg font-medium text-gray-700 mb-2">Product Image</label>
+            <input type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-6">
+            <button type="submit" class="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
